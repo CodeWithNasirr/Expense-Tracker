@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
+        integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <h1>Expense Tracker</h1>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
+            <div class="balance-container">
+                <h2>Your Balance</h2>
+                <h2 id="balance" class="balance">{% if not Total_Price %}$0.00{% else %}${{Total_Price}}{% endif %}</h2>
+            </div>
+        </div>
+        <div class="inc-exp-container">
+            <div>
+                <h4>Income</h4>
+                <p id="money-plus" class="money plus">{% if not Plus_Total %}$0.00{% else %}${{Plus_Total}}{% endif %}</p>
+            </div>
+            <div>
+                <h4>Expenses</h4>
+                <p id="money-minus" class="money minus">{% if not Minus_Total %}$0.00{% else %}${{Minus_Total}}{% endif %}</p>
+            </div>
+        </div>
+        <h3>History</h3>
+        <ul id="list" class="list">
+            {% for Transaction in Transactions %}
+            {% if Transaction.price > 0 %}
+            <li class="plus">
+                {{Transaction.desc}} <span>+{{Transaction.price}}</span> <a href="{% url 'Deleted' Transaction.id %}"><button class="delete-btn"><i class="fa fa-times"></i></button></a>
+            </li>
+            {% else %}
+            <li class="minus">
+                {{Transaction.desc}} <span>{{Transaction.price}}</span><a href="{% url 'Deleted' Transaction.id %}"><button class="delete-btn"><i class="fa fa-times"></i></button></a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        <h3>Add new transaction</h3>
+        <form id="form" method="post">{% csrf_token %}
+            <div class="form-control">
+                <label for="text">Description</label>
+                <input type="text" id="text" name="text" placeholder="Enter description..." />
+            </div>
+            <div class="form-control">
+                <label for="amount">Amount <br />
+                    <small>(-100 = expense, 100 = income)</small></label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount..." />
+            </div>
+            <button class="btn" type="submit">Add transaction</button>
+        </form>
+    </div>
+    <!-- Notification -->
+    <div class="notification-container" id="notification">
+        <p>Please add a description and amount</p>
+    </div>
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+        alert("{{message}}")
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+
+</html>
