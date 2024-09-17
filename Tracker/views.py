@@ -15,7 +15,7 @@ def Tracker(request):
             messages.info(request, 'Please Fill The Correct Price')
             return redirect('/')
         
-        x=Transactions(desc=desc,price=amount)
+        x=Transactions(desc=desc,price=float(amount))
         x.save()
         return redirect('/')
     value = {"Transactions":Transactions.objects.all(),"Total_Price":tracker_total_cal()['total_sum'],"Plus_Total":tracker_Plus_cal()["total_sum"],"Minus_Total":tracker_minu_cal()['total_sum']}

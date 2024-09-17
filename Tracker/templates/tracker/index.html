@@ -9,10 +9,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
         integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+    <style>
+        .logo-container {
+            width: 180px;
+            height: 180px;
+            background-color: whitesmoke;
+            border-radius: 50%;
+        }
+    
+        .img-uploader {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .form-control {
+            display: flex;
+            flex-direction: column;
+            text-align-last: center;
+        }
+    
+        .circle-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+        }
+    </style>
+    </head>
 
 <body>
     <h1>Expense Tracker</h1>
+    <div class="img-uploader">
+    <div class="logo-container">
+        <img src="{% static 'tracker/img/1.JPG' %}" alt="" class="circle-logo">
+    </div>
+    <div class="form-control">
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" name="image"/>
+    </div>
+</div>
     <div class="container">
         <div class="header">
             <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
@@ -49,12 +85,12 @@
         <form id="form" method="post">{% csrf_token %}
             <div class="form-control">
                 <label for="text">Description</label>
-                <input type="text" id="text" name="text" placeholder="Enter description..." />
+                <input type="text" id="text" name="text" placeholder="Enter description..." required />
             </div>
             <div class="form-control">
                 <label for="amount">Amount <br />
                     <small>(-100 = expense, 100 = income)</small></label>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount..." />
+                <input type="number" id="amount" name="amount" placeholder="Enter amount..." required/>
             </div>
             <button class="btn" type="submit">Add transaction</button>
         </form>
