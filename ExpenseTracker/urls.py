@@ -16,9 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from Tracker import views as T_views
 
+from django.contrib.auth import views as auth_views
+from django.contrib.auth import logout
+from django.shortcuts import render,redirect
+from django.conf import settings
+from django.conf.urls.static import static
 
+def custum_logout(request):
+    logout(request)
+    return redirect('logout_success')
 urlpatterns = [
     path('',include('Tracker.urls')),
     path('admin/', admin.site.urls),
-]
+    path('register',T_views.Register,name='Register'),
+    path('login',auth_views.LoginView.as_view(template_name='tracker/login.html'),name='login'),
+    path('logout',custum_logout,name='logout'),
+    path('logout-success/', auth_views.TemplateView.as_view(template_name='tracker/logout.html'), name='logout_success'),
+]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

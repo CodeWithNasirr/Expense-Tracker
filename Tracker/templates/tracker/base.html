@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tracker/css/util.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/css/register.css' %}">
+    {% block css %}{% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+</head> 
+<body>
+ 
+    <div class="main">
+        <div class="navigation max-width1 m-auto">
+            <div class="nav-left">
+                {% if user.is_authenticated %}
+                <span><a href="/">Expense-Tracker</a></span>
+                {% else %}
+                <span><a href="">Expense-Tracker</a></span>
+                {% endif %}
+            </div>
+            <div class="nav-right">
+                <ul>
+                    {% if user.is_authenticated %}
+                    <li><a href="/">Home</a></li>
+                    <!-- <li><a href="Option">Option</a></li> -->
+                    <li><a href="/logout">Log Out</a></li>
+                    <!-- <li><a href="Profile">Profile</a></li> -->
+                     {%  else %}
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="max-width1 m-auto">
+            <hr>
+        </div>
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% block js %}{% endblock %}
+</body>
+</html>

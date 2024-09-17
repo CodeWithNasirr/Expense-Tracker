@@ -1,0 +1,19 @@
+{% extends 'tracker/base.html' %}
+{% load static %}
+{% block body %}
+<div class="logout">
+    <h1>You are Logged Out</h1>
+    <a href="{% url 'login' %}"><button class="l-btn">Log in Again</button></a>
+</div>
+<script>
+    // Check if there is a success message
+    const successMessage = document.querySelector('.logout');
+    if (successMessage) {
+        // If a success message exists, delay the redirect by 3 seconds
+        setTimeout(function() {
+            window.location.href = "{% url 'login' %}";
+        }, 3000);
+    }
+</script>
+
+{% endblock %} 

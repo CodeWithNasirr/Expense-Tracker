@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
+{% extends 'tracker/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'tracker/css/stylee.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
         integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,6 +11,7 @@
             height: 180px;
             background-color: whitesmoke;
             border-radius: 50%;
+            margin: 5px 0;
         }
     
         .img-uploader {
@@ -24,11 +21,13 @@
             align-items: center;
         }
     
-        .form-control {
+        .form-control form{
             display: flex;
-            flex-direction: column;
-            text-align-last: center;
-        }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+        
     
         .circle-logo {
             width: 180px;
@@ -36,23 +35,28 @@
             border-radius: 50%;
         }
     </style>
-    </head>
-
-<body>
-    <h1>Expense Tracker</h1>
+{% endblock %}
+{% block body %}
     <div class="img-uploader">
     <div class="logo-container">
-        <img src="{% static 'tracker/img/1.JPG' %}" alt="" class="circle-logo">
+        {% for image in images %}
+        <img src="{{image.avatar}}" alt="" class="circle-logo">
+        {% endfor %}
     </div>
     <div class="form-control">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
         <label for="image">Upload Image</label>
         <input type="file" id="image" name="image"/>
+        <input type="submit" value="Upload">
+    </form>
     </div>
 </div>
     <div class="container">
         <div class="header">
             <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
             <div class="balance-container">
+                <h1 style="text-align: center;">{{user.username}}</h1>
                 <h2>Your Balance</h2>
                 <h2 id="balance" class="balance">{% if not Total_Price %}$0.00{% else %}${{Total_Price}}{% endif %}</h2>
             </div>
@@ -99,13 +103,12 @@
     <div class="notification-container" id="notification">
         <p>Please add a description and amount</p>
     </div>
-    {% if messages %}
-    <script>
+        {% if messages %}
+    <!-- <script>
         {% for message in messages %}
         alert("{{message}}")
         {% endfor %}
-    </script>
+    </script> -->
     {% endif %}
-</body>
 
-</html>
+{% endblock %}
