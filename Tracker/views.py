@@ -15,7 +15,8 @@ def Tracker(request):
             try:
                 user_profile=UserProfile.objects.get(user=request.user)
                 if user_profile.avatar:
-                    old_img_path=os.path.join(settings.MEDIA_ROOT,str(user_profile.avatar))
+                    # old_img_path=os.path.join(settings.MEDIA_ROOT,str(user_profile.avatar))
+                    old_img_path=user_profile.avatar.path
                     if os.path.exists(old_img_path):
                         try:
                             os.remove(old_img_path)
