@@ -30,6 +30,7 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=UserProfile)
 def Avtar_Resizer(sender, instance, created, **kwargs):
+    # sab se pahle avtar check karna ha wo db pe ha ya nhi if it true then save the path in variable just-like(avatar_path) and next open Image From this path when the image open True then Reize it and save into the thumbnail and lastly when the img resize save into the same path if you save the same path it acctully save the same data base path 
     if instance.avatar:
         avatar_path=instance.avatar.path
         img=Image.open(avatar_path)
