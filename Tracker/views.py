@@ -10,25 +10,25 @@ from django.contrib.auth.decorators import login_required
 def Tracker(request):
     if request.method == 'POST':
         # first you have to do make a FILES request to get the Image and save the Image which you get from the FILES-Request in a variable like(image),then also you use TRY exceptions for better view then you have check the which user send the FILES-Request How To Check? use xyz.objects.get(user=request.user) if it True then use if condition to check the image or avatar already in the DB or not if it True then find his exacat path if you find the path then remove it and when the if conditions is False means not avatar in DB then you have to Save the image From the DB! in the firstly you have you Try Exceptions if the Try is not True Means The (objects.get) is not founded or xyzx.Doesnotexist then create a new user with avatar and save it .... 
-        if 'image' in request.FILES:
-            image=request.FILES['image']
-            # Try isliye laga rahe ha first checkhoga ki ye jo image upload hoga isse pahle koi or image exist() karta ha v ya nhi ager karta hoga to usko remove karenge then ye wala models pe save karenge
-            try:
-                user_profile=UserProfile.objects.get(user=request.user)
-                if user_profile.avatar:
-                    # old_img_path=os.path.join(settings.MEDIA_ROOT,str(user_profile.avatar))
-                    old_img_path=user_profile.avatar.path
-                    if os.path.exists(old_img_path):
-                        try:
-                            os.remove(old_img_path)
-                        except FileNotFoundError:
-                            print(f"File {old_img_path} Not Found Skip Deletions....")
-                user_profile.avatar=image
-                user_profile.save()
+        # if 'image' in request.FILES:
+        #     image=request.FILES['image']
+        #     # Try isliye laga rahe ha first checkhoga ki ye jo image upload hoga isse pahle koi or image exist() karta ha v ya nhi ager karta hoga to usko remove karenge then ye wala models pe save karenge
+        #     try:
+        #         user_profile=UserProfile.objects.get(user=request.user)
+        #         if user_profile.avatar:
+        #             # old_img_path=os.path.join(settings.MEDIA_ROOT,str(user_profile.avatar))
+        #             old_img_path=user_profile.avatar.path
+        #             if os.path.exists(old_img_path):
+        #                 try:
+        #                     os.remove(old_img_path)
+        #                 except FileNotFoundError:
+        #                     print(f"File {old_img_path} Not Found Skip Deletions....")
+        #         user_profile.avatar=image
+        #         user_profile.save()
 
-            except UserProfile.DoesNotExist:
-                user_profile=UserProfile(user=request.user,avatar=image)
-                user_profile.save()
+        #     except UserProfile.DoesNotExist:
+        #         user_profile=UserProfile(user=request.user,avatar=image)
+        #         user_profile.save()
 
 
 
