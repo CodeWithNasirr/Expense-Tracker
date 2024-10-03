@@ -21,35 +21,35 @@ class UserProfile(models.Model):
     def __str__(self) -> str:
         return f"{self.user.id} - {self.user.username}"
 
-@receiver(post_save,sender=UserProfile)
-def create_thub(sender,instance , created , **kwargs):
-    print(instance.avatar.name)
-    if created:
-        sizes = {
-            'thumbnail_small':(100,100),
-            'thumbnail_medium':(300,300),
-            'thumbnail_large':(600,600),
-        }
+# @receiver(post_save,sender=UserProfile)
+# def create_thub(sender,instance , created , **kwargs):
+#     print(instance.avatar.name)
+#     if created:
+#         sizes = {
+#             'thumbnail_small':(100,100),
+#             'thumbnail_medium':(300,300),
+#             'thumbnail_large':(600,600),
+#         }
 
-    for fields, size in sizes.items(): 
-        img = Image.open(instance.avatar.path)
-        img.thumbnail(size, Image.Resampling.LANCZOS)
-        if img.mode=='RGBA':
-            img=img.convert('RGB')
-        # Get the base name and extension correctly
-        file_name,file_exten=os.path.splitext(os.path.basename(instance.avatar.name))
-        # print(file_exten)  # This will print something like '.jpg'
-        # print(file_name)       # This will print the base file name like 'example'
+#     for fields, size in sizes.items(): 
+#         img = Image.open(instance.avatar.path)
+#         img.thumbnail(size, Image.Resampling.LANCZOS)
+#         if img.mode=='RGBA':
+#             img=img.convert('RGB')
+#         # Get the base name and extension correctly
+#         file_name,file_exten=os.path.splitext(os.path.basename(instance.avatar.name))
+#         # print(file_exten)  # This will print something like '.jpg'
+#         # print(file_name)       # This will print the base file name like 'example'
 
-        # Create the new file name for the thumbnail
-        thub_fileName = f"{file_name}_{size[0]}X{size[1]}{file_exten}"
-        thub_path = f"thubnails/{thub_fileName}"
+#         # Create the new file name for the thumbnail
+#         thub_fileName = f"{file_name}_{size[0]}X{size[1]}{file_exten}"
+#         thub_path = f"thubnails/{thub_fileName}"
 
-        # Save the thumbnail
-        img.save(os.path.join(os.path.dirname(instance.avatar.path), thub_path))
-        print(os.path.join(os.path.dirname(instance.avatar.path), thub_path))
+#         # Save the thumbnail
+#         img.save(os.path.join(os.path.dirname(instance.avatar.path), thub_path))
+#         print(os.path.join(os.path.dirname(instance.avatar.path), thub_path))
 
-        # Update the respective field in the model instance
-        setattr(instance, fields, thub_path)
+#         # Update the respective field in the model instance
+#         setattr(instance, fields, thub_path)
 class Register(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
